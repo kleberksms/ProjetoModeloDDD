@@ -1,18 +1,16 @@
+using System.Data.Entity.Migrations;
+using ProjectModeloDDD.Infra.Data.Contexto;
+
 namespace ProjectModeloDDD.Infra.Data.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<Contexto.ProjetoModeloContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ProjetoModeloContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(Contexto.ProjetoModeloContext context)
+        protected override void Seed(ProjetoModeloContext context)
         {
             //  This method will be called after migrating to the latest version.
 

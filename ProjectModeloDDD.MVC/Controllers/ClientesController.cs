@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using AutoMapper;
 using ProjectModeloDDD.Application.Interface;
 using ProjectModeloDDD.Domain.Entities;
-using ProjectModeloDDD.Infra.Data.Repositories;
 using ProjectModeloDDD.MVC.ViewModels;
 
 namespace ProjectModeloDDD.MVC.Controllers
@@ -74,6 +70,7 @@ namespace ProjectModeloDDD.MVC.Controllers
 
         // POST: Clientes/Edit/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(ClienteViewModel cliente)
         {
             if (ModelState.IsValid)
@@ -95,11 +92,12 @@ namespace ProjectModeloDDD.MVC.Controllers
 
         // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfitmed(int id)
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
         {
             var cliente = _clienteAppService.GetById(id);
-            var clienteViewModel = Mapper.Map<Cliente, ClienteViewModel>(cliente);
-            return View(clienteViewModel);
+            _clienteAppService.Remove(cliente);
+            return RedirectToAction("Index");
         }
     }
 }

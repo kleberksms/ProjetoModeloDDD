@@ -38,6 +38,7 @@ namespace ProjectModeloDDD.MVC.Controllers
         // GET: Produto/Create
         public ActionResult Create()
         {
+            ViewBag.ClienteId = new SelectList(_clienteAppService.GetAll(),"ClienteId","Nome");
             return View();
         }
 
@@ -58,6 +59,7 @@ namespace ProjectModeloDDD.MVC.Controllers
         // GET: Produto/Edit/5
         public ActionResult Edit(int id)
         {
+            ViewBag.ClienteId = new SelectList(_clienteAppService.GetAll(), "ClienteId", "Nome");
             var produto = _produtoAppService.GetById(id);
             var produtoViewModel = Mapper.Map<Produto, ProdutoViewModel>(produto);
             return View(produtoViewModel);
@@ -65,6 +67,7 @@ namespace ProjectModeloDDD.MVC.Controllers
 
         // POST: Produto/Edit/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(ProdutoViewModel produto)
         {
             if (ModelState.IsValid)
@@ -86,11 +89,12 @@ namespace ProjectModeloDDD.MVC.Controllers
 
         // POST: Produto/Delete/5
         [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfitmed(int id)
         {
             var produto = _produtoAppService.GetById(id);
-            var produtoViewModel = Mapper.Map<Produto, ProdutoViewModel>(produto);
-            return View(produtoViewModel);
+            _produtoAppService.Remove(produto);
+            return RedirectToAction("Index");
         }
     }
 }
